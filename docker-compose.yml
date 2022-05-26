@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  # 
+  back:
+    build: ./back
+    ports:
+      - 8000:8000
+
+  front:
+    build: ./front
+    ports:
+      - 3000:3000
+    
+    depends_on:
+      - back
