@@ -1,3 +1,5 @@
+drop database if exists CharacterSheet;
+create database CharacterSheet;
 use CharacterSheet;
 create table rulesets ( 
 	id int auto_increment primary key, 
