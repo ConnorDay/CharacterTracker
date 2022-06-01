@@ -1,0 +1,16 @@
+.collapsablecontainer {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: 1rem;
+}
+.ccheader {
+    background-color: var(--accent-dark);
+    flex-basis: 0;
+}
+
+.ccbody {
+    background-color: var(--accent-light);
+    height: 100%;
+    flex-basis: 0;
+}
