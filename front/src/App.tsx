@@ -3,6 +3,7 @@ import "./App.css";
 import { Bio } from "./components/Bio";
 import { CollapsibleContainer } from "./components/CollapsibleContainer";
 import { Saves } from "./components/Saves";
+import { Skills } from "./components/Skills";
 
 class App extends React.Component {
     constructor(props: { [key: string]: any }) {
@@ -70,6 +71,7 @@ class App extends React.Component {
                 <div className="body">
                     <Saves saves={testData.saves} />
                     <Bio {...testData.bio} />
+                    <Skills skills={testData.skills} />
                 </div>
             </div>
         );
