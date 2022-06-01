@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { CollapsibleContainer } from "./components/CollapsibleContainer";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+    constructor(props: { [key: string]: any }) {
+        super(props);
+    }
+    render() {
+        return (
+            <div className="app">
+                <div className="header">
+                    <p> hello world </p>
+                </div>
+                <div className="body">
+                    <CollapsibleContainer header="This is the header">
+                        <p>this is a sentence</p>
+                        <p>this is a sentence</p>
+                        <p>this is a sentence</p>
+                    </CollapsibleContainer>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;
