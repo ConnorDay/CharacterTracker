@@ -4,6 +4,7 @@ import { Bio } from "./components/Bio";
 import { CollapsibleContainer } from "./components/CollapsibleContainer";
 import { Saves } from "./components/Saves";
 import { Skills } from "./components/Skills";
+import { Stats } from "./components/Stats";
 
 class App extends React.Component {
     constructor(props: { [key: string]: any }) {
@@ -69,6 +70,7 @@ class App extends React.Component {
                     <p> hello world </p>
                 </div>
                 <div className="body">
+                    <Stats stats={testData.stats} />
                     <Saves saves={testData.saves} />
                     <Bio {...testData.bio} />
                     <Skills skills={testData.skills} />
