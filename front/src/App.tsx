@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { CollapsableContainer } from "./components/CollapsableContainer";
+import { CollapsibleContainer } from "./components/CollapsibleContainer";
 
 class App extends React.Component {
     constructor(props: { [key: string]: any }) {
@@ -13,7 +13,14 @@ class App extends React.Component {
                     <p> hello world </p>
                 </div>
                 <div className="body">
-                    <CollapsableContainer />
+                    <CollapsibleContainer>
+                        <p className="ccheader">this is a header</p>
+                        <div className="ccbody">
+                            <p>this is a sentence</p>
+                            <p>this is a sentence</p>
+                            <p>this is a sentence</p>
+                        </div>
+                    </CollapsibleContainer>
                 </div>
             </div>
         );
