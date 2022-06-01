@@ -13,13 +13,10 @@ class App extends React.Component {
                     <p> hello world </p>
                 </div>
                 <div className="body">
-                    <CollapsibleContainer>
-                        <p className="ccheader">this is a header</p>
-                        <div className="ccbody">
-                            <p>this is a sentence</p>
-                            <p>this is a sentence</p>
-                            <p>this is a sentence</p>
-                        </div>
+                    <CollapsibleContainer header="This is the header">
+                        <p>this is a sentence</p>
+                        <p>this is a sentence</p>
+                        <p>this is a sentence</p>
                     </CollapsibleContainer>
                 </div>
             </div>
