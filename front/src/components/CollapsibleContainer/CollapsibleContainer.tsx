@@ -2,7 +2,7 @@ import React from "react";
 import "./CollapsibleContainer.css";
 
 type Props = {
-    children?: React.ReactNode[];
+    children?: React.ReactNode[] | React.ReactElement<any, any>;
     header: string;
 };
 type State = {
