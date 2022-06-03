@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { Bio } from "./components/Bio";
 import { CollapsibleContainer } from "./components/CollapsibleContainer";
+import { Column } from "./components/Column";
 import { Saves } from "./components/Saves";
 import { Skills } from "./components/Skills";
 import { Stats } from "./components/Stats";
@@ -70,10 +71,16 @@ class App extends React.Component {
                     <p> hello world </p>
                 </div>
                 <div className="body">
-                    <Stats stats={testData.stats} />
-                    <Saves saves={testData.saves} />
-                    <Bio {...testData.bio} />
-                    <Skills skills={testData.skills} />
+                    <Column>
+                        <Stats stats={testData.stats} />
+                        <Saves saves={testData.saves} />
+                    </Column>
+                    <Column>
+                        <Bio {...testData.bio} />
+                    </Column>
+                    <Column>
+                        <Skills skills={testData.skills} />
+                    </Column>
                 </div>
             </div>
         );
