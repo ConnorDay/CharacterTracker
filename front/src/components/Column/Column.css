@@ -1,0 +1,16 @@
+.column-supercontainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.column-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.column-supercontainer > span {
+    cursor: col-resize;
+    border: 1px solid var(--dark);
+}

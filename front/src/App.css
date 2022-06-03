@@ -24,4 +24,6 @@
     background-color: var(--main-background);
     color: var(--main-foreground);
     height: 100%;
+    display: flex;
+    flex-direction: row;
 }
