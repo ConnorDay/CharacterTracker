@@ -9,21 +9,18 @@ type SkillEntry = {
 type Props = {
     skills: SkillEntry[];
 };
-type State = {};
 
-class Skills extends React.Component<Props, State> {
-    render() {
-        const { skills } = this.props;
-        return (
-            <CollapsibleContainer header="Skills">
-                {skills?.map((entry) => (
-                    <span>
-                        {entry.name}: {entry.value}
-                    </span>
-                ))}
-            </CollapsibleContainer>
-        );
-    }
+function Skills(props: Props) {
+    const { skills } = props;
+    return (
+        <CollapsibleContainer header="Skills">
+            {skills?.map((entry) => (
+                <span>
+                    {entry.name}: {entry.value}
+                </span>
+            ))}
+        </CollapsibleContainer>
+    );
 }
 
 export default Skills;
