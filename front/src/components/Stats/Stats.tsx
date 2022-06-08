@@ -10,21 +10,18 @@ type StatEntry = {
 type Props = {
     stats: StatEntry[];
 };
-type State = {};
 
-class Stats extends React.Component<Props, State> {
-    render() {
-        const { stats } = this.props;
-        return (
-            <CollapsibleContainer header="Stats">
-                {stats?.map((entry) => (
-                    <span>
-                        {entry.name}: {entry.value}
-                    </span>
-                ))}
-            </CollapsibleContainer>
-        );
-    }
+function Stats(props: Props) {
+    const { stats } = props;
+    return (
+        <CollapsibleContainer header="Stats">
+            {stats?.map((entry) => (
+                <span>
+                    {entry.name}: {entry.value}
+                </span>
+            ))}
+        </CollapsibleContainer>
+    );
 }
 
 export default Stats;

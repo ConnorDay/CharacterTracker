@@ -9,21 +9,18 @@ type SaveEntry = {
 type Props = {
     saves: SaveEntry[];
 };
-type State = {};
 
-class Saves extends React.Component<Props, State> {
-    render() {
-        const { saves } = this.props;
-        return (
-            <CollapsibleContainer header="Saves">
-                {saves.map((entry) => (
-                    <span>
-                        {entry.name}: {entry.value}
-                    </span>
-                ))}
-            </CollapsibleContainer>
-        );
-    }
+function Saves(props: Props) {
+    const { saves } = props;
+    return (
+        <CollapsibleContainer header="Saves">
+            {saves.map((entry) => (
+                <span>
+                    {entry.name}: {entry.value}
+                </span>
+            ))}
+        </CollapsibleContainer>
+    );
 }
 
 export default Saves;
