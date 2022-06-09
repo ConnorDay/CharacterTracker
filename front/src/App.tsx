@@ -1,6 +1,8 @@
 import "./App.css";
-import CharacterSheet from "./routes/CharacterSheet/CharacterSheet";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { CharacterList, CharacterSheet } from "./routes/Character";
+import { Campaign, CampaignList } from "./routes/Campaign";
+import { RulesetList, Ruleset } from "./routes/Ruleset";
 
 function App() {
     return (
@@ -11,8 +13,24 @@ function App() {
                 </div>
 
                 <Routes>
-                    <Route path="/" element={<>test</>} />
-                    <Route path="/character/:id" element={<CharacterSheet />} />
+                    <Route path="/">
+                        <Route index element={<>test</>} />
+                        <Route path="character">
+                            <Route index element={<CharacterList />} />
+                            <Route
+                                path=":character_id"
+                                element={<CharacterSheet />}
+                            />
+                        </Route>
+                        <Route path="campaign">
+                            <Route index element={<CampaignList />} />
+                            <Route path=":campaign_id" element={<Campaign />} />
+                        </Route>
+                        <Route path="ruleset">
+                            <Route index element={<RulesetList />} />
+                            <Route path=":ruleset_id" element={<Ruleset />} />
+                        </Route>
+                    </Route>
                 </Routes>
             </div>
         </BrowserRouter>

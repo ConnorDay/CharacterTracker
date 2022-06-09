@@ -1,9 +1,10 @@
+import "./CharacterSheet.css";
 import { useParams } from "react-router-dom";
-import { Bio } from "../../components/Bio";
-import { Column } from "../../components/Column";
-import { Saves } from "../../components/Saves";
-import { Skills } from "../../components/Skills";
-import { Stats } from "../../components/Stats";
+import { Bio } from "../../../components/Bio";
+import { Column } from "../../../components/Column";
+import { Saves } from "../../../components/Saves";
+import { Skills } from "../../../components/Skills";
+import { Stats } from "../../../components/Stats";
 
 function CharacterSheet() {
     const testData = {
@@ -62,7 +63,6 @@ function CharacterSheet() {
     const params = useParams();
     return (
         <div className="body">
-            {params.id}
             <Column>
                 <Stats stats={testData.stats} />
                 <Saves saves={testData.saves} />
