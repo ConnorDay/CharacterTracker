@@ -8,6 +8,7 @@ import { Skills } from "./components/Skills";
 import { Stats } from "./components/Stats";
 
 function App() {
+    console.log(process.env.REACT_APP_API_TARGET);
     const testData = {
         bio: { name: "test", maxHp: 40, currHp: 20 },
         skills: [
