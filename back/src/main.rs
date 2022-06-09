@@ -1,6 +1,8 @@
 extern crate dotenv;
 #[macro_use] extern crate rocket;
 
+use rocket::serde::{Serialize, json::Json};
+
 use rocket_db_pools::{sqlx, Database};
 use rocket_db_pools::Connection;
 use rocket_db_pools::sqlx::Row;
@@ -9,29 +11,41 @@ use rocket_db_pools::sqlx::Row;
 #[database("mysql")]
 struct Logs(sqlx::MySqlPool);
 
-#[get("/")]
-async fn index() -> &'static str {
-    "Hello, World!"
+#[derive(Serialize)]
+struct Table {
+    name: String
 }
 
-#[get("/<id>")]
-async fn read(mut db: Connection<Logs>, id: i64) -> Option<String> {
-    sqlx::query("SELECT * FROM characters WHERE id = ?").bind(id)
-        .fetch_one(&mut *db).await
+#[get("/")]
+async fn read(mut db: Connection<Logs>) -> Option<String> {
+    sqlx::query("SELECT * FROM characters")
+        .fetch_all(&mut *db).await        
         .and_then(|r| {
-            let result = Ok(r.try_get(2)?);
-            match &result{
-                Ok(res) => println!("Character name = {}",&res),
-                Err(_e) => println!("error :(")
+            for row in r {
+                let item: Result<String,sqlx::Error> = row.try_get(2);
+                match &item{
+                    Ok(res) => println!("Character name = {}",&res),
+                    Err(_e) => println!("error :(")
+                }
+                /*
+                return result
+                */
             }
-            return result
+            return Ok(String::from("fegli"));
         })
         .ok()
+}
+
+#[get("/fegli")]
+async fn fegli() -> Option<Json<Table>> {
+    Some(Json(Table{
+        name: String::from("fegli surpeme")
+    }))
 }
 
 
 #[launch]
 fn rocket() -> _ {
     dotenv::dotenv().ok();
-    rocket::build().attach(Logs::init()).mount("/", routes![index]).mount("/", routes![read])
+    rocket::build().attach(Logs::init()).mount("/", routes![read,fegli])
 }
