@@ -1,62 +1,39 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import internal from "stream";
 import "./App.css";
-import { Bio } from "./components/Bio";
-import { CollapsibleContainer } from "./components/CollapsibleContainer";
-import { Column } from "./components/Column";
-import { Saves } from "./components/Saves";
-import { Skills } from "./components/Skills";
-import { Stats } from "./components/Stats";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { CharacterList, CharacterSheet } from "./routes/Character";
+import { Campaign, CampaignList } from "./routes/Campaign";
+import { RulesetList, Ruleset } from "./routes/Ruleset";
 
-type entry = {
-    name: string;
-    value: number;
-};
-
-type characterResponse = {
-    bio: {
-        name: string;
-        maxHp: number;
-        currHp: number;
-    };
-    skills: entry[];
-    stats: entry[];
-    saves: entry[];
-};
 function App() {
-    const [character, setCharacter] = useState<characterResponse | undefined>(
-        undefined
-    );
-    useEffect(() => {
-        axios.get("/api/character/1").then((data) => {
-            console.log(data);
-            setCharacter(data.data);
-        });
-    }, []);
-
-    if (character === undefined) {
-        return <div className="body">waiting on data</div>;
-    }
-
     return (
-        <div className="app">
-            <div className="header">
-                <p> hello world </p>
+        <BrowserRouter>
+            <div className="app">
+                <div className="header">
+                    <p> hello world </p>
+                </div>
+
+                <Routes>
+                    <Route path="/">
+                        <Route index element={<>test</>} />
+                        <Route path="character">
+                            <Route index element={<CharacterList />} />
+                            <Route
+                                path=":character_id"
+                                element={<CharacterSheet />}
+                            />
+                        </Route>
+                        <Route path="campaign">
+                            <Route index element={<CampaignList />} />
+                            <Route path=":campaign_id" element={<Campaign />} />
+                        </Route>
+                        <Route path="ruleset">
+                            <Route index element={<RulesetList />} />
+                            <Route path=":ruleset_id" element={<Ruleset />} />
+                        </Route>
+                    </Route>
+                </Routes>
             </div>
-            <div className="body">
-                <Column>
-                    <Stats stats={character.stats} />
-                    <Saves saves={character.saves} />
-                </Column>
-                <Column>
-                    <Bio {...character.bio} />
-                </Column>
-                <Column>
-                    <Skills skills={character.skills} />
-                </Column>
-            </div>
-        </div>
+        </BrowserRouter>
     );
 }
 
