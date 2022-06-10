@@ -1,84 +1,39 @@
-import React from "react";
 import "./App.css";
-import { Bio } from "./components/Bio";
-import { CollapsibleContainer } from "./components/CollapsibleContainer";
-import { Column } from "./components/Column";
-import { Saves } from "./components/Saves";
-import { Skills } from "./components/Skills";
-import { Stats } from "./components/Stats";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { CharacterList, CharacterSheet } from "./routes/Character";
+import { Campaign, CampaignList } from "./routes/Campaign";
+import { RulesetList, Ruleset } from "./routes/Ruleset";
 
 function App() {
-    const testData = {
-        bio: { name: "test", maxHp: 40, currHp: 20 },
-        skills: [
-            {
-                name: "athletics",
-                value: 4,
-            },
-            {
-                name: "acrobatics",
-                value: 4,
-            },
-            {
-                name: "fegli",
-                value: 4,
-            },
-            {
-                name: "diesel",
-                value: 4,
-            },
-        ],
-        saves: [
-            {
-                name: "fortitude",
-                value: -1,
-            },
-            {
-                name: "horny",
-                value: -99,
-            },
-            {
-                name: "wis",
-                value: 1,
-            },
-        ],
-        stats: [
-            {
-                name: "str",
-                value: 10,
-            },
-            {
-                name: "dex",
-                value: 9,
-            },
-            {
-                name: "con",
-                value: 15,
-            },
-            {
-                name: "int",
-                value: 12,
-            },
-        ],
-    };
     return (
-        <div className="app">
-            <div className="header">
-                <p> hello world </p>
+        <BrowserRouter>
+            <div className="app">
+                <div className="header">
+                    <p> hello world </p>
+                </div>
+
+                <Routes>
+                    <Route path="/">
+                        <Route index element={<>test</>} />
+                        <Route path="character">
+                            <Route index element={<CharacterList />} />
+                            <Route
+                                path=":character_id"
+                                element={<CharacterSheet />}
+                            />
+                        </Route>
+                        <Route path="campaign">
+                            <Route index element={<CampaignList />} />
+                            <Route path=":campaign_id" element={<Campaign />} />
+                        </Route>
+                        <Route path="ruleset">
+                            <Route index element={<RulesetList />} />
+                            <Route path=":ruleset_id" element={<Ruleset />} />
+                        </Route>
+                    </Route>
+                </Routes>
             </div>
-            <div className="body">
-                <Column>
-                    <Stats stats={testData.stats} />
-                    <Saves saves={testData.saves} />
-                </Column>
-                <Column>
-                    <Bio {...testData.bio} />
-                </Column>
-                <Column>
-                    <Skills skills={testData.skills} />
-                </Column>
-            </div>
-        </div>
+        </BrowserRouter>
     );
 }
 
