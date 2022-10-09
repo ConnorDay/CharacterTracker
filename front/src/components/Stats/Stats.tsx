@@ -1,10 +1,10 @@
-import React from "react";
-import { CollapsibleContainer } from "../CollapsibleContainer";
+import Table from "react-bootstrap/Table";
+import Accordion from "react-bootstrap/Accordion";
 import "./Stats.css";
 
 type StatEntry = {
     name: string;
-    value: any;
+    value: number;
 };
 
 type Props = {
@@ -14,13 +14,23 @@ type Props = {
 function Stats(props: Props) {
     const { stats } = props;
     return (
-        <CollapsibleContainer header="Stats">
-            {stats?.map((entry) => (
-                <span>
-                    {entry.name}: {entry.value}
-                </span>
-            ))}
-        </CollapsibleContainer>
+        <Accordion defaultActiveKey="0">
+            <Accordion.Item eventKey="0">
+                <Accordion.Header>Stats</Accordion.Header>
+                <Accordion.Body>
+                    <Table hover>
+                        <tbody>
+                            {stats.map((entry) => (
+                                <tr>
+                                    <td>{entry.name}</td>
+                                    <td>{entry.value}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Accordion.Body>
+            </Accordion.Item>
+        </Accordion>
     );
 }
 
