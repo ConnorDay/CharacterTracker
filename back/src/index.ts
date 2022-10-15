@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { default as CharacterRouter } from "./routes/character";
+import {db} from "./db";
+
 
 const app = express();
 app.use(cors());
