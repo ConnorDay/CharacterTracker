@@ -30,7 +30,6 @@ function CharacterSheet() {
     );
     useEffect(() => {
         axios.get("/api/character/1").then((data) => {
-            console.log(data);
             setCharacter(data.data);
         });
     }, []);
