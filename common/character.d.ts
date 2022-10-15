@@ -1,4 +1,4 @@
 export interface CharacterSummary {
-    CharcterName: string;
+    CharacterName: string;
     CharacterId: string;
 }
