@@ -98,15 +98,24 @@ CREATE TABLE character_mtm_stats (
 END //
 
 DELIMITER //
-CREATE PROCEDURE `create_character` (IN campaign_id int, IN character_name varchar(255))
+CREATE FUNCTION create_character(campaign_id int, character_name varchar(255))
+RETURNS boolean
+DETERMINISTIC
 BEGIN
 	DECLARE done INT DEFAULT FALSE;
 	DECLARE stat_id int;
 	DECLARE StatCursor CURSOR FOR SELECT id FROM stats WHERE ruleset_id = @ruleset;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    
+    SELECT ruleset_id INTO @ruleset FROM campaigns WHERE id = campaign_id;
+    
+    IF (SELECT EXISTS(SELECT ruleset_id FROM campaigns WHERE id = campaign_id) = 0) THEN
+		RETURN FALSE;
+	END IF;
+    
 	INSERT INTO characters(campaign_id,character_name) VALUES (campaign_id,character_name);
     SELECT last_insert_id() INTO @char_id; 
-    SELECT ruleset_id INTO @ruleset FROM campaigns WHERE id = campaign_id;
+    
     
     OPEN StatCursor;
     
@@ -120,6 +129,6 @@ BEGIN
     
     CLOSE StatCursor;
     
-    SELECT * from character_mtm_stats;
+    RETURN TRUE;
 END //
 DELIMITER ;

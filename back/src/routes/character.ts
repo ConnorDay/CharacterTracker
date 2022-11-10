@@ -50,4 +50,30 @@ router.get("/:id", async (req, res) => {
     })
 });
 
+// Create base of new character
+router.post("/", async (req, res) => {
+    const {CampaignId,CharacterName} = req.body;
+    if (CampaignId === undefined) {
+        res.status(400).send(`campaign id required to be defined`);
+        return
+    }
+    if (CharacterName === undefined) {
+        res.status(400).send(`character name required to be defined`);
+        return
+    }
+    db.query("SELECT create_character(?, ?)", [req.body.CampaignId, req.body.CharacterName], (err, result) => {
+        if (err) {
+            res.status(500).send(err);
+            return;
+        }
+        const success = (<RowDataPacket> result)[0][0];
+        if (success === 0) {
+            res.status(400).send(`desired ruleset does not exist, cannot create character`)
+            return;
+        }
+        res.status(201).send(`created character successfully`);
+        return;
+    })
+});
+
 export default router;

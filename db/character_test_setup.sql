@@ -25,11 +25,11 @@ insert into campaigns(campaign_name, ruleset_id) values ("Stonespring",2);
 insert into campaigns(campaign_name, ruleset_id) values ("Eventide Fake",1);
 
 # Create long list of characters to test with
-CALL create_character (1,"Hademar");
+#SELECT create_character (1,"Hademar");
 #insert into characters(campaign_id,character_name) values (1,"Aldo");
 #insert into characters(campaign_id,character_name) values (2,"Hoto");
 #insert into characters(campaign_id,character_name) values (2,"Grob");
 #insert into characters(campaign_id,character_name) values (3,"Strongboy");
 #insert into characters(campaign_id,character_name) values (3,"Smartboy");
-
+#SELECT * from character_mtm_stats;
 #select * from characters
