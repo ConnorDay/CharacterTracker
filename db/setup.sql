@@ -117,6 +117,9 @@ BEGIN
 		END IF;
         INSERT INTO character_mtm_stats(character_id, stat_id, stat_value) VALUES (@char_id, stat_id, 10);
     END LOOP;
+    
+    CLOSE StatCursor;
+    
     SELECT * from character_mtm_stats;
 END //
 DELIMITER ;
