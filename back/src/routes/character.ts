@@ -55,25 +55,54 @@ router.post("/", async (req, res) => {
     const {CampaignId,CharacterName} = req.body;
     if (CampaignId === undefined) {
         res.status(400).send(`campaign id required to be defined`);
-        return
+        return;
     }
     if (CharacterName === undefined) {
         res.status(400).send(`character name required to be defined`);
-        return
+        return;
     }
-    db.query("SELECT create_character(?, ?)", [req.body.CampaignId, req.body.CharacterName], (err, result) => {
+    db.query("SELECT create_character(?, ?)", [req.body.CampaignId, req.body.CharacterName], (err, result, fields) => {
         if (err) {
             res.status(500).send(err);
             return;
         }
-        const success = (<RowDataPacket> result)[0][0];
-        if (success === 0) {
+        const success = (<RowDataPacket> result)[0][fields[0].name];
+        if (success === -1) {
             res.status(400).send(`desired ruleset does not exist, cannot create character`)
             return;
         }
-        res.status(201).send(`created character successfully`);
+        res.status(201).json({CharacterId:success});
         return;
     })
 });
 
+
+// Update character name
+router.patch("/:id", async (req, res) => {
+    db.query("UPDATE characters SET character_name = ? WHERE id = ?", [req.body.CharacterName, req.params.id], (err, result) => {
+        if (err) {
+            res.status(404).send(`specified character id does not exist`);
+            return;
+        }
+        res.status(200).send(`ok`);
+        return;
+    })
+});
+
+// Delete character
+router.delete("/:id", async (req, res) => {
+    db.query("SELECT delete_character(?)", [req.params.id], (err, result, fields) => {
+        if (err) {
+            res.status(500).send(err);
+            return;
+        }
+        const success = (<RowDataPacket> result)[0][fields[0].name];
+        if (success === -1) {
+            res.status(404).send(`specified character id does not exist`)
+            return;
+        }
+        res.status(200).send(`deleted`);
+        return;
+    })
+});
 export default router;

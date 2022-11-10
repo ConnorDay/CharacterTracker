@@ -61,35 +61,35 @@ CREATE TABLE inventory (
 
 /* Relational Databases */
 
-CREATE TABLE character_mtm_skill (
+CREATE TABLE characters_mtm_skills (
 	id int auto_increment primary key, 
 	skill_id int not null,
 	character_id int not null,
 	ranks int
 );
 
-CREATE TABLE character_mtm_save (
+CREATE TABLE characters_mtm_saves (
 	id int auto_increment primary key, 
 	character_id int not null,
 	save_id int not null,
 	save_value int not null
 );
 
-CREATE TABLE character_mtm_ability (
+CREATE TABLE characters_mtm_abilities (
 	id int auto_increment primary key,
 	character_id int not null,
 	ability_id int not null,
 	ability_value int not null
 );
 
-CREATE TABLE character_mtm_resources (
+CREATE TABLE characters_mtm_resources (
 	id int auto_increment primary key,
 	character_id int not null,
 	resource_id int not null
 	# todo?
 );
 
-CREATE TABLE character_mtm_stats (
+CREATE TABLE characters_mtm_stats (
 	id int auto_increment primary key,
 	character_id int not null,
 	stat_id int not null,
@@ -99,7 +99,7 @@ END //
 
 DELIMITER //
 CREATE FUNCTION create_character(campaign_id int, character_name varchar(255))
-RETURNS boolean
+RETURNS INT
 DETERMINISTIC
 BEGIN
 	DECLARE done INT DEFAULT FALSE;
@@ -108,27 +108,43 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
     
     SELECT ruleset_id INTO @ruleset FROM campaigns WHERE id = campaign_id;
-    
     IF (SELECT EXISTS(SELECT ruleset_id FROM campaigns WHERE id = campaign_id) = 0) THEN
-		RETURN FALSE;
+		RETURN -1;
 	END IF;
-    
 	INSERT INTO characters(campaign_id,character_name) VALUES (campaign_id,character_name);
     SELECT last_insert_id() INTO @char_id; 
     
-    
     OPEN StatCursor;
-    
     read_loop: LOOP
 		FETCH StatCursor INTO stat_id;
         IF done THEN
 			LEAVE read_loop;
 		END IF;
-        INSERT INTO character_mtm_stats(character_id, stat_id, stat_value) VALUES (@char_id, stat_id, 10);
+        INSERT INTO characters_mtm_stats(character_id, stat_id, stat_value) VALUES (@char_id, stat_id, 10);
     END LOOP;
-    
     CLOSE StatCursor;
     
-    RETURN TRUE;
+    RETURN @char_id;
+END //
+
+CREATE FUNCTION delete_character(character_id int)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	# Warning, this DELETES a character and all associated entries!!!
+    
+    IF (SELECT EXISTS(SELECT id FROM characters WHERE id = character_id) = 0) THEN
+		RETURN -1;
+	END IF;
+    
+    DELETE FROM characters_mtm_stats WHERE character_id = character_id;
+    DELETE FROM characters_mtm_saves WHERE character_id = character_id;
+    DELETE FROM characters_mtm_skills WHERE character_id = character_id;
+    DELETE FROM characters_mtm_abilities WHERE character_id = character_id;
+    DELETE FROM characters_mtm_resources WHERE character_id = character_id;
+    
+    DELETE FROM characters WHERE id = character_id;
+    
+    RETURN 1;
 END //
 DELIMITER ;
