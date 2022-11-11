@@ -129,7 +129,7 @@ BEGIN
     IF (SELECT EXISTS(SELECT ruleset_id FROM campaigns WHERE id = campaign_id) = 0) THEN
 		RETURN -1;
 	END IF;
-	INSERT INTO characters(campaign_id,character_name) VALUES (campaign_id,character_name);
+	INSERT INTO characters(campaign_id,character_name, current_hp, max_hp, tmp_hp) VALUES (campaign_id,character_name,0,0,0);
     SELECT last_insert_id() INTO @char_id; 
     
     OPEN StatCursor;
