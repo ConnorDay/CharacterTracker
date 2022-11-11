@@ -57,6 +57,10 @@ router.post("/", async (req, res) => {
         res.status(400).send(`campaign name required to be defined`);
         return;
     }
+    if (CampaignName.length > 255) {
+        res.status(400).send(`campaign name must be shorter than 256 characters`);
+        return;
+    }
     if (RulesetId === undefined) {
         res.status(400).send(`ruleset id required to be defined`);
         return;
@@ -79,14 +83,33 @@ router.post("/", async (req, res) => {
 
 // Update character name
 router.patch("/:id", async (req, res) => {
-    db.query("UPDATE campaigns SET campaign_name = ? WHERE id = ?", [req.body.CampaignName, req.params.id], (err, result) => {
+    if (req.body.CampaignName === undefined && req.body.RulesetId === undefined) {
+        res.status(400).send(`insufficient information provided`)
+        return;
+    }
+    if (req.body.CampaignName !== undefined && req.body.CampaignName.length > 255) {
+        res.status(400).send(`campaign name must be shorter than 256 characters`);
+        return;
+    }
+    db.query("SELECT update_campaign(?,?,?)", [req.params.id, req.body.CampaignName, req.body.RulesetId], (err, result, fields) => {
         if (err) {
-            res.status(404).send(`specified campaign id does not exist`);
+            res.status(500).send(err);
+            return;
+        }
+        const success = (<RowDataPacket> result)[0][fields[0].name];
+        if (success === -1) {
+            res.status(404).send(`specified campaign id does not exist`)
+            return;
+        }
+        if (success === -2) {
+            res.status(400).send(`specified ruleset id does not exist`)
             return;
         }
         res.status(200).send(`ok`);
         return;
-    })
+    });
+    
+    
 });
 
 // Delete character

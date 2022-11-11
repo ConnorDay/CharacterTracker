@@ -179,6 +179,31 @@ BEGIN
     RETURN @campaign_id;
 END //
 
+CREATE FUNCTION update_campaign(campaign_id int, campaign_name varchar(255), ruleset_id int)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	IF (SELECT EXISTS(SELECT id FROM campaigns WHERE id = campaign_id) = 0) THEN
+		# "campaign id does not exist"
+        RETURN -1;
+	END IF;
+    
+    IF (ISNULL(ruleset_id) = 0) THEN
+		IF (SELECT EXISTS(SELECT id FROM rulesets WHERE id = ruleset_id) = 0) THEN
+			# ruleset id  does not exist
+			RETURN -2;
+		END IF;
+        UPDATE campaigns SET ruleset_id = ruleset_id WHERE id = campaign_id;
+    END IF;
+    
+    IF (ISNULL(campaign_name) = 0) THEN
+		UPDATE campaigns SET campaign_name = campaign_name WHERE id = campaign_id;
+    END IF;
+    
+    RETURN 1;
+    
+END //
+
 CREATE FUNCTION delete_campaign(campaign_id int)
 RETURNS INT
 DETERMINISTIC
