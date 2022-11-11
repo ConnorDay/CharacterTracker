@@ -28,7 +28,7 @@ function CharacterList() {
             {characters.map((c) => (
                 <Nav.Link
                     key={c.CharacterId}
-                    href={`character/${c.CampaignId}`}
+                    href={`character/${c.CharacterId}`}
                 >
                     <CharacterCard character={c} />
                 </Nav.Link>
