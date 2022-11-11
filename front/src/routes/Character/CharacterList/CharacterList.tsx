@@ -5,6 +5,7 @@ import { CharacterSummary } from "../../../../../common/character";
 import axios from "axios";
 import { CharacterCard } from "../../../components/CharacterCard";
 import { useNavigate } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 
 function CharacterList() {
     const navigate = useNavigate();
@@ -23,15 +24,16 @@ function CharacterList() {
     }
 
     return (
-        <>
+        <Nav>
             {characters.map((c) => (
-                <CharacterCard
-                    onClick={() => navigate(c.CharacterId)}
+                <Nav.Link
                     key={c.CharacterId}
-                    character={c}
-                />
+                    href={`character/${c.CharacterId}`}
+                >
+                    <CharacterCard character={c} />
+                </Nav.Link>
             ))}
-        </>
+        </Nav>
     );
 }
 
