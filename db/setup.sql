@@ -18,7 +18,10 @@ CREATE TABLE users (
 CREATE TABLE characters (
 	id int auto_increment primary key, 
 	campaign_id int not null,
-	character_name varchar(255)
+	character_name varchar(255),
+    current_hp int not null,
+    max_hp int not null,
+    tmp_hp int not null
 );
 CREATE TABLE skills (
 	id int auto_increment primary key,
@@ -51,6 +54,13 @@ CREATE TABLE abilities (
 	ruleset_id int not null,
 	resource_id int not null
 );
+
+CREATE TABLE bios (
+	id int auto_increment primary key,
+    ruleset_id int not null,
+    bio_name varchar(255)
+);
+
 CREATE TABLE inventory (
 	id int auto_increment primary key,
 	character_id int not null,
@@ -85,8 +95,9 @@ CREATE TABLE characters_mtm_abilities (
 CREATE TABLE characters_mtm_resources (
 	id int auto_increment primary key,
 	character_id int not null,
-	resource_id int not null
-	# todo?
+	resource_id int not null,
+	current_value int not null,
+    max_value int not null
 );
 
 CREATE TABLE characters_mtm_stats (
@@ -94,6 +105,13 @@ CREATE TABLE characters_mtm_stats (
 	character_id int not null,
 	stat_id int not null,
 	stat_value int not null
+);
+
+CREATE TABLE characters_mtm_bios (
+	id int auto_increment primary key,
+	character_id int not null,
+	bio_id int not null,
+	bio_value int not null
 );
 END //
 
@@ -111,7 +129,7 @@ BEGIN
     IF (SELECT EXISTS(SELECT ruleset_id FROM campaigns WHERE id = campaign_id) = 0) THEN
 		RETURN -1;
 	END IF;
-	INSERT INTO characters(campaign_id,character_name) VALUES (campaign_id,character_name);
+	INSERT INTO characters(campaign_id,character_name, current_hp, max_hp, tmp_hp) VALUES (campaign_id,character_name,0,0,0);
     SELECT last_insert_id() INTO @char_id; 
     
     OPEN StatCursor;
