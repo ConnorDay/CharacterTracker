@@ -20,9 +20,9 @@ insert into stats(ruleset_id, stat_name, shortname) values (2,"Wisdom","WIS");
 insert into stats(ruleset_id, stat_name, shortname) values (2,"Spirit","SPT");
 
 # Create three base campaigns
-insert into campaigns(campaign_name, ruleset_id) values ("Eventide",1);
-insert into campaigns(campaign_name, ruleset_id) values ("Stonespring",2);
-insert into campaigns(campaign_name, ruleset_id) values ("Eventide Fake",1);
+#insert into campaigns(campaign_name, ruleset_id) values ("Eventide",1);
+#insert into campaigns(campaign_name, ruleset_id) values ("Stonespring",2);
+#insert into campaigns(campaign_name, ruleset_id) values ("Eventide Fake",1);
 
 # Create long list of characters to test with
 #SELECT create_character (1,"Hademar");

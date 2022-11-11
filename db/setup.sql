@@ -165,4 +165,33 @@ BEGIN
     
     RETURN 1;
 END //
+
+CREATE FUNCTION create_campaign(campaign_name varchar(255), ruleset_id int)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    IF (SELECT EXISTS(SELECT id FROM rulesets WHERE id = ruleset_id) = 0) THEN
+		RETURN -1;
+	END IF;
+	INSERT INTO campaigns(campaign_name, ruleset_id) VALUES (campaign_name, ruleset_id);
+    SELECT last_insert_id() INTO @campaign_id; 
+    
+    RETURN @campaign_id;
+END //
+
+CREATE FUNCTION delete_campaign(campaign_id int)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	# Warning, this DELETES a campaign!!!
+    
+    IF (SELECT EXISTS(SELECT id FROM campaigns WHERE id = campaign_id) = 0) THEN
+		RETURN -1;
+	END IF;
+    
+    DELETE FROM campaigns WHERE id = campaign_id;
+    
+    RETURN 1;
+END //
+
 DELIMITER ;
