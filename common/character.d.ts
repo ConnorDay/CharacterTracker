@@ -1,12 +1,12 @@
 export interface Character {
-    CharacterId: int;
-    CampaignId: int;
+    CharacterId: number;
+    CampaignId: number;
     CharacterName: string;
 }
 
 export interface CharacterSummary {
-    CharacterId: int;
-    CampaignId: int;
+    CharacterId: number;
+    CampaignId: number;
     CharacterName: string;
     //CharacterLevel: int;
     //Race: string;
